@@ -26,13 +26,15 @@ export default function Home() {
 
   const [active, setActive] = useState(0)
   const [difficulties, setDifficulties] = useState([])
-  const [error, setError] = useState()
+  const [error, setError] = useState([])
+
   const nextStep = () => {
     if (active === 2) {
       saveWorkout()
     }
     setActive((current) => (current < 3 ? current + 1 : current))
   }
+
   const jumpToStep = (step) => {
     const isFirstStep = active === 0
     const hasEquipment = equipment.length > 0
@@ -45,6 +47,7 @@ export default function Home() {
       setActive(step)
     }
   }
+
   const [muscles, setMuscles] = useState([])
   const [workout, setWorkout] = useState([])
 
@@ -60,14 +63,14 @@ export default function Home() {
     setActive(2)
   }
 
-  const clearUrl = () => {
-    const { pathname, query } = router
-    delete router.query.repeat_id
-    delete router.query.share_id
-    router.replace({ pathname, query }, undefined, { shallow: true })
-  }
-
   useEffect(() => {
+    const clearUrl = () => {
+      const { pathname, query } = router
+      delete router.query.repeat_id
+      delete router.query.share_id
+      router.replace({ pathname, query }, undefined, { shallow: true })
+    }
+
     if (repeatWorkout && !workout.length) {
       initializeWorkout(repeatWorkout)
       clearUrl()
